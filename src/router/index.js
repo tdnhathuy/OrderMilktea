@@ -18,6 +18,7 @@ import Setting from '../screens/Setting'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
 import Checkout from '../screens/Home/Checkout'
+import { Icon } from 'react-native-elements'
 
 
 const Stack = createStackNavigator()
@@ -34,9 +35,24 @@ HomeStack = () => {
 
 BottomNavigatior = () => {
     return <BottomTabs.Navigator>
-        <BottomTabs.Screen name='HomeStack' component={HomeStack} />
-        <BottomTabs.Screen name='Map' component={Map} />
-        <BottomTabs.Screen name='Setting' component={Setting} />
+        <BottomTabs.Screen
+            name='HomeStack'
+            component={HomeStack}
+            options={{
+                tabBarLabel: 'Home',
+                tabBarIcon: ({ focused }) => <Icon name='home' color={focused ? '#6495ed' : 'black'} />
+            }} />
+        <BottomTabs.Screen
+            name='Map'
+            component={Map}
+            options={{
+                tabBarIcon: ({ focused }) => <Icon name='map' color={focused ? '#6495ed' : 'black'} />
+            }} />
+        <BottomTabs.Screen
+            name='Setting'
+            component={Setting} options={{
+                tabBarIcon: ({ focused }) => <Icon name='ios-settings' type='ionicon' color={focused ? '#6495ed' : 'black'} />
+            }} />
     </BottomTabs.Navigator>
 }
 
@@ -45,10 +61,10 @@ export default function () {
         <Provider store={store}>
             <NavigationContainer>
 
-                <Stack.Navigator screenOptions={{headerShown: false} }>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name='BottomHome' component={BottomNavigatior} />
                     <Stack.Screen name='Login' component={Login} />
                     <Stack.Screen name='Register' component={Register} />
-                    <Stack.Screen name='BottomHome' component={BottomNavigatior} />
 
                 </Stack.Navigator>
             </NavigationContainer>
