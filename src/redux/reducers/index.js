@@ -1,9 +1,11 @@
 
 initialState = {
+    menuDrink: [],
+    menuTopping: [],
     listDrink: [],
     listTopping: [],
-    infoDes:{
-        address:'',
+    infoDes: {
+        address: '',
         distance: 0,
         duration: 0
     }
@@ -32,11 +34,24 @@ export default myReducer = (state = initialState, action) => {
                 listDrink: [...state.listDrink, action.payload].flat()
             }
 
-            case 'INFO_DES':
-                return{
-                    ...state,
-                    infoDes: action.payload
-                }
+        case 'INFO_DES':
+            return {
+                ...state,
+                infoDes: action.payload
+            }
+
+        case 'SET_MENU':
+            return {
+                ...state,
+                menuDrink: action.payload.menuDrink,
+                menuTopping: action.payload.menuTopping
+            }
+
+        case 'REMOVE_DRINK':
+            return {
+                ...state,
+                listDrink: state.listDrink.filter((val, idx) => idx !== action.payload)
+            }
 
         default:
             return state

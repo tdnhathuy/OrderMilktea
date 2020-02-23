@@ -23,13 +23,10 @@ class Drink extends Component {
     }
 
     getDataFromFirebase = async () => {
-        let list = []
-        await firebase.firestore().collection('beverage').get()
-            .then(snap => snap.forEach(doc => {
-                list.push(doc.data())
-            }))
-            .catch(err => console.log(err))
-            .finally(() => this.setState({ list }))
+        this.props.menuDrink.forEach(element => {
+            element.check = false
+        });
+        this.setState({list: this.props.menuDrink})
     }
 
     render() {
@@ -87,11 +84,11 @@ class Drink extends Component {
 
 
 const mapStateToProps = (state) => ({
-
+    menuDrink: state.menuDrink
 })
 
 const mapDispatchToProps = dispatch => ({
     orderDrink: listDrink => dispatch(orderDrink(listDrink))
 })
 
-export default connect(null, mapDispatchToProps)(Drink)
+export default connect(mapStateToProps, mapDispatchToProps)(Drink)

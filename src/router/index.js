@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavigationContainer, } from '@react-navigation/native'
+import { NavigationContainer, StackActions, } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -12,7 +12,10 @@ import Topping from '../screens/Home/Topping'
 import Drink from '../screens/Home/Drink'
 
 import Map from '../screens/Map/Map'
-import Setting from '../screens/Setting'
+
+//StackSetting
+import Setting from '../screens/Setting/Setting'
+import Edit from '../screens/Setting/Edit'
 
 //Redux
 import { Provider } from 'react-redux'
@@ -33,6 +36,13 @@ HomeStack = () => {
     </Stack.Navigator>
 }
 
+SettingStack =()=>{
+    return <Stack.Navigator>
+        <Stack.Screen name='Setting' component={Setting} />
+        <Stack.Screen name='Edit' component={Edit}/>
+    </Stack.Navigator>
+}
+
 BottomNavigatior = () => {
     return <BottomTabs.Navigator>
         <BottomTabs.Screen
@@ -49,8 +59,8 @@ BottomNavigatior = () => {
                 tabBarIcon: ({ focused }) => <Icon name='map' color={focused ? '#6495ed' : 'black'} />
             }} />
         <BottomTabs.Screen
-            name='Setting'
-            component={Setting} options={{
+            name='SettingStack'
+            component={SettingStack} options={{
                 tabBarIcon: ({ focused }) => <Icon name='ios-settings' type='ionicon' color={focused ? '#6495ed' : 'black'} />
             }} />
     </BottomTabs.Navigator>
@@ -59,13 +69,11 @@ BottomNavigatior = () => {
 export default function () {
     return (
         <Provider store={store}>
-            <NavigationContainer>
-
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name='BottomHome' component={BottomNavigatior} />
-                    <Stack.Screen name='Login' component={Login} />
+            <NavigationContainer >
+                <Stack.Navigator name='RootStack' screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name='Login' component={Login} options={{gestureEnabled: false}} />
                     <Stack.Screen name='Register' component={Register} />
-
+                    <Stack.Screen name='BottomHome' component={BottomNavigatior} />
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>

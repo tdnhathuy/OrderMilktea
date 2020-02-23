@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, FlatList, ActivityIndicator, } from 'react-native'
 
-import firebase from '../../firebase'
-import 'firebase/firestore'
 import styles from '../../styles'
 
 //redux
@@ -23,25 +21,18 @@ class Topping extends Component {
     }
 
     async componentDidMount() {
+        console.log(this.props.route.params.item.topping)
+        console.log(this.props.menuTopping)
+        this.props.menuTopping.forEach(element => element.check = false)
 
-        console.log(this.props.route.params.item)
-        console.log(this.props.route.params.index)
-
-        let list = []
-        await firebase.firestore().collection('topping').get()
-            .then(snap => snap.forEach(doc => {
-                list.push(doc.data())
-            }))
-            .catch(err => console.log(err))
-            .finally(async () => {
-                list.forEach(element => {
-                    element.check = false
-                    this.props.route.params.item.topping.forEach(topping => {
-                        if (element.name == topping.name) element.check = true
-                    })
-                })
-                this.setState({ list })
+        this.props.menuTopping.forEach(element => {
+            this.props.route.params.item.topping.forEach(topping => {
+                if(element.name == topping.name) element.check = true
             })
+        })
+
+
+        this.setState({ list: this.props.menuTopping })
     }
 
     render() {
@@ -93,7 +84,6 @@ class Topping extends Component {
     }
 
     onPressButton = () => {
-        //this.props.addTopping(this.state.checked)
         const { index } = this.props.route.params
         this.props.addToppingToDrink(this.state.checked, index)
         this.props.navigation.pop()
@@ -102,7 +92,7 @@ class Topping extends Component {
 
 
 const mapStateToProps = (state) => ({
-
+    menuTopping: state.menuTopping
 })
 
 const mapDispatchToProps = dispatch => ({

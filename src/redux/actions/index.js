@@ -20,9 +20,22 @@ export const orderDrink = (listDrink) => {
     }
 }
 
-export const infoDestination =(obj)=>{
-    return{
+export const infoDestination = (obj) => {
+    return {
         type: 'INFO_DES',
         payload: obj
     }
 }
+
+export const setMenu = (menuDrink, menuTopping) => ({
+    type: 'SET_MENU',
+    payload: {
+        menuDrink,
+        menuTopping
+    }
+})
+
+export const removeDrinkFromList = (index) => ({
+    type: 'REMOVE_DRINK',
+    payload: index
+})
